@@ -1,0 +1,14 @@
+function init(self)
+	msg.post("@render:", "use_fixed_projection", { zoom = 3 })
+	self.timer = 0
+	go.set("background#tails", "tint.w", 0.2)
+end
+
+function update(self, dt)
+	self.timer = self.timer + dt
+	local v = self.timer / 15 % 0.3
+	if v > 0.15 then
+		v = 0.3 - v
+	end
+	go.set("background#tails", "tint.w", v + 0.2)
+end

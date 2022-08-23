@@ -1,0 +1,16 @@
+[bootstrap]
+main_collection = /main/main.collectionc
+
+[script]
+shared_state = 1
+
+[display]
+width = 1008
+height = 864
+
+[android]
+input_method = HiddenInputField
+
+[project]
+title = 4 in a row
+

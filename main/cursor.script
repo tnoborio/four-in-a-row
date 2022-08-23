@@ -1,0 +1,33 @@
+local env = require("main.env")
+local logic = require("main.logic")
+
+function init(self)
+	self.score = 0
+	msg.post(".",  "acquire_input_focus")
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		print(action.x, action.y)
+		print(go.get_world_position("board").x)
+
+		factory.create("main#first-stone-factory", vmath.vector3(
+		action.x,
+		action.y,
+		1
+		))
+			
+		x = math.floor(action.x / env.STONE_WIDTH)
+		y = math.floor(action.y / env.STONE_HEIGHT)
+		if not logic.can_put(x, y) then
+			return
+		end
+		logic.put(x, y)
+		factory.create(
+			logic.turn() == 1 and "main#first-stone-factory" or "main#second-stone-factory",
+			vmath.vector3(x * env.STONE_WIDTH, y * env.STONE_HEIGHT, 0)
+		)
+		local is_finish = logic.is_finish()
+		print('is_finish: ', is_finish)
+	end
+end
