@@ -8,8 +8,8 @@ function init(self)
 	for x = 0, 6 do
 		for y = 0, 5 do
 			local id = factory.create("main#empty-stone-factory", vmath.vector3(
-				(x + 0) * 48 + 10 , (y + 0) * 48 + 10, 0
-			))
+				(x + 0) * 48 * 4 + 10 , (y + 0) * 48 * 4 + 10, 0
+			), nil, nil, 4)
 			table.insert(empty_stones, id)
 			logic.register_id(x, y, id)
 		end

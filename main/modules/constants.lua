@@ -6,6 +6,9 @@ local constants = {}
 constants.SCREEEN_WIDTH = 356
 constants.SCREEEN_HEIGHT = 306
 
+constants.PADDING_LEFT = 10
+constants.PADDING_BOTTOM = 10
+
 constants.STONE_WIDTH = 48
 constants.STONE_HEIGHT = 48
 

@@ -38,7 +38,7 @@ function module.can_put(x, y)
 	print('can_put', x, y)
 	for _y = 0, y - 1 do
 		if not board[x][_y] then
-			return
+			return false
 		end
 	end
 	return not board[x][y]

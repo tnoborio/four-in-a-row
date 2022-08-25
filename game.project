@@ -6,15 +6,13 @@ render = /rendercam/rendercam.renderc
 shared_state = 1
 
 [display]
-width = 356
-height = 306
 high_dpi = 1
 
 [android]
 input_method = HiddenInputField
 
 [project]
-title = 4 in a row
+title = Four in a row
 dependencies#0 = https://github.com/rgrams/rendercam/archive/v1.0.1.zip
 
 [sprite]
