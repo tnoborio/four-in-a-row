@@ -1,7 +1,23 @@
+local logic = require("main.modules.logic")
+local empty_stones = {}
+
 function init(self)
-	msg.post("@render:", "use_fixed_projection", { zoom = 3 })
+	-- msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1, zoom = 3 })
 	self.timer = 0
-	go.set("background#tails", "tint.w", 0.2)
+
+	for x = 0, 6 do
+		for y = 0, 5 do
+			local id = factory.create("main#empty-stone-factory", vmath.vector3(
+				(x + 0) * 48 + 10 , (y + 0) * 48 + 10, 0
+			))
+			table.insert(empty_stones, id)
+			logic.register_id(x, y, id)
+		end
+	end
+
+	for i, id in pairs(empty_stones) do
+		go.set(msg.url(nil, msg.url(id).path, "sprite"), "tint.w", 0.2)
+	end
 end
 
 function update(self, dt)
@@ -10,5 +26,7 @@ function update(self, dt)
 	if v > 0.15 then
 		v = 0.3 - v
 	end
-	go.set("background#tails", "tint.w", v + 0.2)
+	for i, id in pairs(empty_stones) do
+		go.set(msg.url(nil, msg.url(id).path, "sprite"), "tint.w", v + 0.2)
+	end
 end

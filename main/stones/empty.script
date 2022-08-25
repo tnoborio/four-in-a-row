@@ -1,0 +1,6 @@
+function on_message(self, message_id, message, sender)
+	if message_id ~= hash("collision_response") then
+		print("empty.on_message", message_id, message.other_id, message.other_group)
+		msg.post("/cursor#cursor", "touch")
+	end
+end

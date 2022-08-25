@@ -1,18 +1,16 @@
--- Put functions in this file to use them in several other scripts.
--- To get access to the functions, you need to put:
--- require "my_directory.my_file"
--- in any script using the functions.
-
 local module = {}
 
 local turn = 1 -- 1 or 2
 local board = {}
+local board_id_mapping = {}
 local count = 0
 
 function module.init()
 	board = {}
+	board_id_mapping = {}
 	for i = 0, 6 do
 		board[i] = {}
+		board_id_mapping[i] = {}
 	end
 	turn = 1
 	count = 0
@@ -37,6 +35,7 @@ function module.put(x, y)
 end
 
 function module.can_put(x, y)
+	print('can_put', x, y)
 	for _y = 0, y - 1 do
 		if not board[x][_y] then
 			return
@@ -70,6 +69,22 @@ function module.is_finish()
 		end
 	end
 	return 0
+end
+
+function module.register_id(x, y, id)
+	board_id_mapping[x][y] = id
+	print(id)
+end
+
+function module.find_position_by_id(id)
+	print('module.find_position_by_id', id)
+	for y = 0, 5 do
+		for x = 0, 6 do
+			if board_id_mapping[x][y] == id then
+				return x, y
+			end
+		end
+	end
 end
 
 module.init()
