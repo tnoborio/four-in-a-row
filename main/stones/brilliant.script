@@ -1,3 +1,4 @@
 function init(self)
+	sound.play("#sound")
 	go.animate("#sprite", "tint.w", go.PLAYBACK_ONCE_BACKWARD, 0, go.EASING_OUTCUBIC, 0.3) 
 end
