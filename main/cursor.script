@@ -6,6 +6,7 @@ function init(self)
 	self.score = 0
 	msg.post(".",  "acquire_input_focus")
 	-- rendercam.zoom(3)
+	msg.post("/board#result", "disable")
 end
 
 local STONE_WIDTH = constants.STONE_WIDTH
@@ -50,6 +51,16 @@ function on_message(self, message_id, message, sender)
 		msg.post("/next-block#sprite", "play_animation", { id = logic.turn() == 1 and hash("red-stone") or hash("blue-stone") })
 
 		local is_finish = logic.is_finish()
-		print('is_finish: ', is_finish)
+		if is_finish > 0 then
+			print('is_finish: ', is_finish)
+			if is_finish == 1 then
+				label.set_text("/board#result", "Red Win!!")
+			elseif is_finish == 2 then
+				label.set_text("/board#result", "Blue Win!!")
+			else
+				label.set_text("/board#result", "Draw")
+			end
+			msg.post("/board#result", "enable")
+		end
 	end
 end

@@ -4,6 +4,7 @@ local turn = 1 -- 1 or 2
 local board = {}
 local board_id_mapping = {}
 local count = 0
+local finished = 0
 
 function module.init()
 	board = {}
@@ -25,6 +26,8 @@ function module.put(x, y)
 	end
 	count = count + 1
 
+	finished = module.is_finish()
+
 	for y = 5, 0, -1 do
 		for x = 0, 6 do
 			io.write('' .. (board[x][y] or ' '))
@@ -36,6 +39,11 @@ end
 
 function module.can_put(x, y)
 	print('can_put', x, y)
+
+	if finished > 0 then
+		return false
+	end
+	
 	for _y = 0, y - 1 do
 		if not board[x][_y] then
 			return false
@@ -53,8 +61,10 @@ function calc_sum(turn, x, y, inc_x, inc_y)
 		if turn ~= board[x][y] then
 			return false
 		end
+		x = x + inc_x
+		y = y + inc_y
 	end
-	return x
+	return true
 end
 
 function module.is_finish()
@@ -62,10 +72,34 @@ function module.is_finish()
 		return 0
 	end
 
-	for y = 0, 5 do
-		local sum = 0
-		for x = 0, 3 do
-			print(calc_sum(1, x, y, 1, 0))
+	for turn = 1, 2 do
+		for y = 0, 5 do
+			for x = 0, 3 do
+				if calc_sum(turn, x, y, 1, 0) then
+					return turn
+				end
+			end
+		end
+		for y = 5, 3, -1 do
+			for x = 0, 6 do
+				if calc_sum(turn, x, y, 0, -1) then
+					return turn
+				end
+			end
+		end
+		for y = 0, 2 do
+			for x = 0, 3 do
+				if calc_sum(turn, x, y, 1, 1) then
+					return turn
+				end
+			end
+		end
+		for y = 3, 5 do
+			for x = 0, 3 do
+				if calc_sum(turn, x, y, 1, -11) then
+					return turn
+				end
+			end
 		end
 	end
 	return 0
