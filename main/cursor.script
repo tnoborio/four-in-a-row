@@ -34,6 +34,9 @@ function on_message(self, message_id, message, sender)
 		end
 		print('can put')
 		logic.put(x, y)
+
+		sound.play("#tap")
+
 		factory.create(
 			logic.turn() == 1 and "main#first-stone-factory" or "main#second-stone-factory",
 			vmath.vector3(
