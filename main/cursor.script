@@ -46,6 +46,9 @@ function on_message(self, message_id, message, sender)
 			nil,
 			4.0
 		)
+
+		msg.post("/next-block#sprite", "play_animation", { id = logic.turn() == 1 and hash("red-stone") or hash("blue-stone") })
+
 		local is_finish = logic.is_finish()
 		print('is_finish: ', is_finish)
 	end
