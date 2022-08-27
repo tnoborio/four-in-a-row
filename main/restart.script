@@ -1,0 +1,7 @@
+function on_message(self, message_id, message, sender)
+	print(message_id)
+	if message_id == hash("collision_response") then
+		print("restart")
+		msg.post("/cursor#cursor", "restart")
+	end
+end
