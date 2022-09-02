@@ -3,15 +3,9 @@ local logic = require("main.modules.logic")
 
 local m = {}
 
--- logic.put(0, 0)
-
 function m.ai_think()
-    print("AI")
-    logic.display()
     pos = m.minimax(0)
     print(pos[1], pos[2])
-    -- logic.put(pos[1], pos[2])
-    -- logic.display()
     return pos
 end
 
@@ -24,6 +18,7 @@ function m.minimax(depth)
         return m.evaluate(logic.state(), depth)
     end
     local best = {0, 0}
+    local can_hand = {0, 0}
 
     local value = m.my_turn() and -100 or 100
 
@@ -39,6 +34,7 @@ function m.minimax(depth)
     for x = 0, 6 do
         for y = 0, 5 do
             if logic.can_put(x, y) then
+                can_hand = {x, y}
                 logic.put(x, y)
                 child_value = m.minimax(depth + 1)
                 if depth == 0 then
@@ -67,6 +63,9 @@ function m.minimax(depth)
     end
         
     if depth == 0 then
+        if best[1] == 0 and best[2] == 0 and not logic.can_put(0, 0) then
+            return can_hand
+        end
         return best
     else
         return value
@@ -84,6 +83,7 @@ function m.evaluate(state, depth)
     end
 end
 
-m.ai_think()
+-- logic.put(0, 0)
+-- m.ai_think()
 
 return m
