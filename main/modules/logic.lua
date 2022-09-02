@@ -13,8 +13,21 @@ function module.init()
 		board[i] = {}
 		board_id_mapping[i] = {}
 	end
+
+	-- board[0][0] = 2
+	-- board[1] = {2}
+	-- board[1][0] = 1
+	-- board[2] = {1, 2}
+	-- board[2][0] = 2
+	-- board[3] = {1, 2}
+	-- board[3][0] = 1
+
 	turn = 1
 	count = 0
+end
+
+function module.turn()
+	return turn
 end
 
 function module.put(x, y)
@@ -27,7 +40,22 @@ function module.put(x, y)
 	count = count + 1
 
 	finished = module.is_finish()
+end
 
+function module.undo(x, y)
+	board[x][y] = nil
+	if turn == 1 then
+		turn = 2
+	else
+		turn = 1
+	end
+
+	count = count - 1
+
+	finished = 0
+end
+
+function module.display()
 	for y = 5, 0, -1 do
 		for x = 0, 6 do
 			io.write('' .. (board[x][y] or ' '))
@@ -38,7 +66,7 @@ function module.put(x, y)
 end
 
 function module.can_put(x, y)
-	print('can_put', x, y)
+	-- print('can_put', x, y)
 
 	if finished > 0 then
 		return false
@@ -103,6 +131,10 @@ function module.is_finish()
 		end
 	end
 	return 0
+end
+
+function module.state()
+	return finished
 end
 
 function module.register_id(x, y, id)

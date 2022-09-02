@@ -1,5 +1,6 @@
 local constants = require("main.modules.constants")
 local logic = require("main.modules.logic")
+local ai = require("main.modules.ai")
 local rendercam = require "rendercam.rendercam"
 
 function init(self)
@@ -48,6 +49,21 @@ function on_message(self, message_id, message, sender)
 			4.0
 		)
 
+		pos = ai.ai_think()
+		print("ai pos: " .. pos[1] .. ", " .. pos[2])
+		print(logic.can_put(pos[1], pos[2]))
+		logic.put(pos[1], pos[2])
+		local id = factory.create(
+				logic.turn() == 1 and "main#first-stone-factory" or "main#second-stone-factory",
+				vmath.vector3(
+				x * STONE_WIDTH * 4 + PADDING_LEFT, y * STONE_HEIGHT * 4 + PADDING_BOTTOM, 0
+			),
+			nil,
+			nil,
+			4.0
+		)
+		table.insert(stones, id)		
+						
 		msg.post("/next-block#sprite", "play_animation", { id = logic.turn() == 1 and hash("red-stone") or hash("blue-stone") })
 
 		local is_finish = logic.is_finish()
