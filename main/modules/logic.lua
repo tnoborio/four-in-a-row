@@ -6,6 +6,10 @@ local board_id_mapping = {}
 local count = 0
 local finished = 0
 
+for i = 0, 6 do
+	board_id_mapping[i] = {}
+end
+
 function module.init()
 	board = {}
 	board_id_mapping = {}
@@ -24,6 +28,7 @@ function module.init()
 
 	turn = 1
 	count = 0
+	finished = 0
 end
 
 function module.turn()
@@ -124,7 +129,7 @@ function module.is_finish()
 		end
 		for y = 3, 5 do
 			for x = 0, 3 do
-				if calc_sum(turn, x, y, 1, -11) then
+				if calc_sum(turn, x, y, 1, -1) then
 					return turn
 				end
 			end
