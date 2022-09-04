@@ -19,16 +19,17 @@ function module.init()
 	end
 
 	-- board[0][0] = 2
-	-- board[1] = {2}
 	-- board[1][0] = 1
-	-- board[2] = {1, 2}
-	-- board[2][0] = 2
-	-- board[3] = {1, 2}
+	-- board[2][0] = 1
 	-- board[3][0] = 1
+	-- -- board[4][0] = 1
+	-- board[6][0] = 2
 
-	turn = 1
+	turn = 2
 	count = 0
 	finished = 0
+
+	-- count = 10
 end
 
 function module.turn()
@@ -45,6 +46,7 @@ function module.put(x, y)
 	count = count + 1
 
 	finished = module.is_finish()
+	-- print("finished: " .. finished)
 end
 
 function module.undo(x, y)
@@ -54,9 +56,9 @@ function module.undo(x, y)
 	else
 		turn = 1
 	end
-
 	count = count - 1
 
+	-- finished = module.is_finish()
 	finished = 0
 end
 
@@ -89,7 +91,7 @@ function module.turn()
 	return turn
 end
 
-function calc_sum(turn, x, y, inc_x, inc_y)
+function check_line(turn, x, y, inc_x, inc_y)
 	for i = 0, 3 do
 		if turn ~= board[x][y] then
 			return false
@@ -108,28 +110,28 @@ function module.is_finish()
 	for turn = 1, 2 do
 		for y = 0, 5 do
 			for x = 0, 3 do
-				if calc_sum(turn, x, y, 1, 0) then
+				if check_line(turn, x, y, 1, 0) then
 					return turn
 				end
 			end
 		end
 		for y = 5, 3, -1 do
 			for x = 0, 6 do
-				if calc_sum(turn, x, y, 0, -1) then
+				if check_line(turn, x, y, 0, -1) then
 					return turn
 				end
 			end
 		end
 		for y = 0, 2 do
 			for x = 0, 3 do
-				if calc_sum(turn, x, y, 1, 1) then
+				if check_line(turn, x, y, 1, 1) then
 					return turn
 				end
 			end
 		end
 		for y = 3, 5 do
 			for x = 0, 3 do
-				if calc_sum(turn, x, y, 1, -1) then
+				if check_line(turn, x, y, 1, -1) then
 					return turn
 				end
 			end
@@ -144,7 +146,7 @@ end
 
 function module.register_id(x, y, id)
 	board_id_mapping[x][y] = id
-	print(id)
+	-- print(id)
 end
 
 function module.find_position_by_id(id)
