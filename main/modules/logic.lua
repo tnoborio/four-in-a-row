@@ -10,12 +10,25 @@ for i = 0, 6 do
 	board_id_mapping[i] = {}
 end
 
-function module.init()
+function module.init(init_board)
+	count = 0
 	board = {}
 	board_id_mapping = {}
 	for i = 0, 6 do
 		board[i] = {}
 		board_id_mapping[i] = {}
+	end
+
+	if init_board then
+		for x  = 0, 6 do
+			for y = 0, 5 do
+				local v = init_board[6 - y][x + 1]
+				if v == 1 or v == 2 then
+					board[x][y] = v
+					count = count + 1
+				end
+			end
+		end
 	end
 
 	-- board[0][0] = 2
@@ -25,11 +38,8 @@ function module.init()
 	-- -- board[4][0] = 1
 	-- board[6][0] = 2
 
-	turn = 2
-	count = 0
+	turn = 1
 	finished = 0
-
-	-- count = 10
 end
 
 function module.turn()
@@ -46,7 +56,6 @@ function module.put(x, y)
 	count = count + 1
 
 	finished = module.is_finish()
-	-- print("finished: " .. finished)
 end
 
 function module.undo(x, y)
@@ -58,18 +67,29 @@ function module.undo(x, y)
 	end
 	count = count - 1
 
-	-- finished = module.is_finish()
-	finished = 0
+	finished = module.is_finish()
+	-- finished = 0
 end
 
 function module.display()
 	for y = 5, 0, -1 do
 		for x = 0, 6 do
-			io.write('' .. (board[x][y] or ' '))
+			local v = board[x][y]
+			if v == 1 then
+				io.write('o')
+			elseif v == 2 then
+				io.write('x')
+			else 
+				io.write(' ')
+			end
 		end
 		io.write("\n")
 		io.flush()
 	end
+end
+
+function module.board(x, y)
+	return board[x][y]
 end
 
 function module.can_put(x, y)
